@@ -5,8 +5,9 @@ const config = require('../util/config')
 const firebase = require('firebase')
 firebase.initializeApp(config)
 
-const { validateSignUpData, validateLoginData } = require('../util/validators')
+const { validateSignUpData, validateLoginData, reduceUserDetails } = require('../util/validators')
 
+// User Register
 exports.signUp = (req, res) => {
   const newUser = {
     email: req.body.email,
@@ -58,6 +59,7 @@ exports.signUp = (req, res) => {
     })
 }
 
+// User Login
 exports.logIn = (req, res) => {
   const user = {
     email: req.body.email,
@@ -84,6 +86,22 @@ exports.logIn = (req, res) => {
     })
 }
 
+// Add user details
+exports.addUserDetails = (req, res) => {
+  let userDetails = reduceUserDetails(req.body)
+  console.log(userDetails)
+  db.doc(`/users/${req.user.handle}`)
+    .update(userDetails)
+    .then(() => {
+      return res.json({ message: 'Details added successfully' })
+    })
+    .catch((err) => {
+      console.error(err)
+      return res.status(500).json({ error: err.code })
+    })
+}
+
+// Upload profile image
 exports.uploadImage = (req, res) => {
   const BusBoy = require('busboy')
   const path = require('path')
