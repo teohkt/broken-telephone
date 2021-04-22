@@ -89,7 +89,6 @@ exports.logIn = (req, res) => {
 // Add user details
 exports.addUserDetails = (req, res) => {
   let userDetails = reduceUserDetails(req.body)
-  console.log(userDetails)
   db.doc(`/users/${req.user.handle}`)
     .update(userDetails)
     .then(() => {

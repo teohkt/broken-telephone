@@ -20,6 +20,24 @@ let db = {
       commentCount: 2,
     },
   ],
+  comments: [
+    {
+      userHandle: 'user',
+      screamId: 'nP5TB27cggPre44Qp3yP',
+      body: 'First Comment',
+      createdAt: '2021-04-21T19:28:59.075Z',
+    },
+  ],
+  notifications: [
+    {
+      recipient: 'user',
+      sender: 'john',
+      read: 'true | false',
+      screamId: 'kdjsfgdksuufhgkdsufky',
+      type: 'like | comment',
+      createdAt: '2021-04-21T19:28:59.075Z',
+    },
+  ],
 }
 
 const userDetails = {
