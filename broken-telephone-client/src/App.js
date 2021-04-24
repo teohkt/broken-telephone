@@ -4,28 +4,13 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 // Components
 import Navbar from './components/Navbar'
-
+import themeObject from './util/theme'
 // Pages
 import Home from './Screens/Home'
 import Login from './Screens/Login'
 import Signup from './Screens/Signup'
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#e4ffff',
-      main: '#b1ddd9',
-      dark: '#81aba8',
-      contrastText: '#000000',
-    },
-    secondary: {
-      light: '#eeffff',
-      main: '#bbdefb',
-      dark: '#8aacc8',
-      contrastText: '#000000',
-    },
-  },
-})
+const theme = createMuiTheme(themeObject)
 
 function App() {
   return (

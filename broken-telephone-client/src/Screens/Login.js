@@ -12,31 +12,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-const styles = {
-  image: {
-    height: 100,
-    margin: '20px auto 10px auto',
-  },
-  form: {
-    textAlign: 'Center',
-  },
-  textField: {
-    marginBottom: 10,
-  },
-  button: {
-    marginTop: 10,
-    marginBottom: 10,
-    position: 'relative',
-  },
-  customError: {
-    color: 'red',
-    fontSize: '0.8rem',
-    marginTop: 10,
-  },
-  progress: {
-    position: 'absolute',
-  },
-}
+const styles = (theme) => ({ ...theme.spreadThis })
 
 const Login = (props) => {
   const { classes } = props
@@ -118,7 +94,7 @@ const Login = (props) => {
             fullWidth
           >
             Submit
-            {loading && <CircularProgress className={classes.progress} size={20} />}
+            {loading && <CircularProgress className={classes.progress} size={20} thickness={10} />}
           </Button>
           <small>
             Don't have an account? <Link to={'/signup'}>Sign up here</Link>
