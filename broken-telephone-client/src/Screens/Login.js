@@ -61,8 +61,8 @@ const Login = (props) => {
             type='email'
             label='Email'
             className={classes.textField}
-            helperText={errors.email || false}
-            error={errors.email || false}
+            helperText={errors.email}
+            error={errors.email}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
@@ -73,15 +73,15 @@ const Login = (props) => {
             type='password'
             label='Password'
             className={classes.textField}
-            helperText={errors.password || false}
-            error={errors.password || false}
+            helperText={errors.password}
+            error={errors.password}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
           />
           {errors.general && (
             <Typography variant='body2' className={classes.customError}>
-              {errors.general || false}
+              {errors.general}
             </Typography>
           )}
           <Button

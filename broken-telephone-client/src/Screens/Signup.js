@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import AppIcon from '../images/broken-telephone.png'
 import axios from 'axios'
@@ -12,6 +12,10 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
+//Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { signupUser } from '../redux/actions/userActions'
+
 const styles = (theme) => ({ ...theme.spreadThis })
 
 const Signup = (props) => {
@@ -20,25 +24,13 @@ const Signup = (props) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [handle, setHandle] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [errors, setErrors] = useState({})
 
-  const submitLogin = async (newUserData) => {
-    setLoading(true)
-    setErrors(null)
-    setErrors({})
-    try {
-      const { data } = await axios.post(`/signup`, newUserData)
-      setLoading(false)
-      console.log(data)
-      localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
-      props.history.push('/')
-    } catch (err) {
-      setErrors(err.response.data)
-      setLoading(false)
-      console.log(errors)
-    }
-  }
+  const dispatch = useDispatch()
+
+  const stateUI = useSelector((state) => state.UI)
+  const { loading, errors } = stateUI
+
+  const user = useSelector((state) => state.user.authenticated)
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -48,7 +40,7 @@ const Signup = (props) => {
       confirmPassword: confirmPassword,
       handle: handle,
     }
-    submitLogin(newUserData)
+    dispatch(signupUser(newUserData, props.history))
   }
 
   return (
@@ -67,7 +59,7 @@ const Signup = (props) => {
             label='Email'
             className={classes.textField}
             helperText={errors.email}
-            error={errors.email ? true : false}
+            error={errors.email}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
@@ -79,7 +71,7 @@ const Signup = (props) => {
             label='Password'
             className={classes.textField}
             helperText={errors.password}
-            error={errors.password ? true : false}
+            error={errors.password}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
@@ -91,7 +83,7 @@ const Signup = (props) => {
             label='Confirm Password'
             className={classes.textField}
             helperText={errors.confirmPassword}
-            error={errors.confirmPassword ? true : false}
+            error={errors.confirmPassword}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             fullWidth
@@ -103,7 +95,7 @@ const Signup = (props) => {
             label='Handle'
             className={classes.textField}
             helperText={errors.handle}
-            error={errors.handle ? true : false}
+            error={errors.handle}
             value={handle}
             onChange={(e) => setHandle(e.target.value)}
             fullWidth
