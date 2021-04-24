@@ -8,7 +8,7 @@ import ScreamCard from '../components/ScreamCard'
 const Home = () => {
   const [screams, setScreams] = useState()
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState()
+  const [error, setError] = useState({})
 
   const retrieveData = async () => {
     setIsLoading(true)
