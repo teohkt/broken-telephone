@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import AppIcon from '../images/broken-telephone.png'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 //MUI
@@ -29,8 +28,6 @@ const Signup = (props) => {
 
   const stateUI = useSelector((state) => state.UI)
   const { loading, errors } = stateUI
-
-  const user = useSelector((state) => state.user.authenticated)
 
   const submitHandler = (e) => {
     e.preventDefault()

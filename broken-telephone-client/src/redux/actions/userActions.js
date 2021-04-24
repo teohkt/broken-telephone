@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI, LOADING_USER, SET_UNAUTHENTICATED } from '../types'
 
-export const loginUser = (userData, history) => (dispatch) => {
+export const loginUser = (userData, history) => async (dispatch) => {
   dispatch({ type: LOADING_UI })
   axios
     .post('/login', userData)
@@ -11,10 +11,11 @@ export const loginUser = (userData, history) => (dispatch) => {
       dispatch({ type: CLEAR_ERRORS })
       history.push('/')
     })
-    .catch((err) => {
+    .catch((error) => {
+      let err = error?.response?.data?.error || {}
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data,
+        payload: err,
       })
     })
 }
@@ -30,10 +31,11 @@ export const signupUser = (newUserData, history) => (dispatch) => {
       history.push('/')
     })
 
-    .catch((err) => {
+    .catch((error) => {
+      let err = error?.response?.data?.error || {}
       dispatch({
         type: SET_ERRORS,
-        payload: err.response.data,
+        payload: err,
       })
     })
 }
