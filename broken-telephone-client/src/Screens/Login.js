@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import AppIcon from '../images/broken-telephone.png'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 //MUI
@@ -12,31 +11,23 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser } from '../redux/actions/userActions'
+
 const styles = (theme) => ({ ...theme.spreadThis })
 
 const Login = (props) => {
   const { classes } = props
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [errors, setErrors] = useState({})
 
-  const submitLogin = async (userData) => {
-    setLoading(true)
-    setErrors(null)
-    setErrors({})
-    try {
-      const { data } = await axios.post(`/login`, userData)
-      setLoading(false)
-      console.log(data)
-      localStorage.setItem('FBIdToken', `Bearer ${data.token}`)
-      props.history.push('/')
-    } catch (err) {
-      setErrors(err.response.data)
-      setLoading(false)
-      console.log(errors)
-    }
-  }
+  const dispatch = useDispatch()
+
+  const stateUI = useSelector((state) => state.UI)
+  const { loading, errors } = stateUI
+
+  const user = useSelector((state) => state.user.authenticated)
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -44,8 +35,16 @@ const Login = (props) => {
       email: email,
       password: password,
     }
-    submitLogin(userData)
+    dispatch(loginUser(userData))
   }
+
+  const redirect = props.location.search ? props.location.search.split('=')[1] : '/'
+
+  useEffect(() => {
+    if (user) {
+      props.history.push(redirect)
+    }
+  }, [props.history, user, redirect])
 
   return (
     <Grid container className={classes.form}>
@@ -62,8 +61,8 @@ const Login = (props) => {
             type='email'
             label='Email'
             className={classes.textField}
-            helperText={errors.email}
-            error={errors.email ? true : false}
+            helperText={errors.email || false}
+            error={errors.email || false}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
@@ -74,15 +73,15 @@ const Login = (props) => {
             type='password'
             label='Password'
             className={classes.textField}
-            helperText={errors.password}
-            error={errors.password ? true : false}
+            helperText={errors.password || false}
+            error={errors.password || false}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             fullWidth
           />
           {errors.general && (
             <Typography variant='body2' className={classes.customError}>
-              {errors.general}
+              {errors.general || false}
             </Typography>
           )}
           <Button
