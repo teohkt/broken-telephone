@@ -10,10 +10,10 @@ import {
 
 const initialState = {
   authenticated: false,
-  loading: false,
   credentials: {},
   likes: [],
   notifications: [],
+  loading: false,
 }
 
 export default function userReducer(state = initialState, action) {

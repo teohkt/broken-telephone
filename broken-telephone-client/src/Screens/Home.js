@@ -4,6 +4,7 @@ import axios from 'axios'
 
 // Components
 import ScreamCard from '../components/ScreamCard'
+import Profile from '../components/Profile'
 
 const Home = () => {
   const [screams, setScreams] = useState()
@@ -35,7 +36,9 @@ const Home = () => {
         {error && 'Error'}
         {screams ? screams.map((scream) => <ScreamCard key={scream.docId} scream={scream} />) : ''}
       </Grid>
-      <Grid item sm={4} xs={12}></Grid>
+      <Grid item sm={4} xs={12}>
+        <Profile />
+      </Grid>
     </Grid>
   )
 }
