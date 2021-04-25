@@ -4,14 +4,16 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 import EditDetails from './EditDetails'
+
+//Components
+import MyButton from '../util/MyButton'
+
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles'
 import Button from '@material-ui/core/Button'
 import MuiLink from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
 
 //MUI Icons
 import LocationOn from '@material-ui/icons/LocationOn'
@@ -101,11 +103,9 @@ const Profile = (props) => {
           <div className='image-wrapper'>
             <img src={imageUrl} alt='Profile' className='profile-image' />
             <input type='file' id='imageInput' hidden='hidden' onChange={handleImageChange} />
-            <Tooltip title='Edit Profile Picture' placement='top'>
-              <IconButton onClick={handleEditPicture} className='button'>
-                <EditIcon color='primary'></EditIcon>
-              </IconButton>
-            </Tooltip>
+            <MyButton tip='Edit Profile Picture' onClick={handleEditPicture}>
+              <EditIcon color='primary'></EditIcon>
+            </MyButton>
           </div>
           <hr />
 
@@ -134,11 +134,9 @@ const Profile = (props) => {
             )}
             <TodayIcon color='primary' /> <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
           </div>
-          <Tooltip title='Logout' placement='top'>
-            <IconButton onClick={handleLogout}>
-              <KeyboardReturnIcon color='primary' />
-            </IconButton>
-          </Tooltip>
+          <MyButton tip='Logout' onClick={handleLogout} className=''>
+            <KeyboardReturnIcon color='primary' />
+          </MyButton>
           <EditDetails />
         </div>
       </Paper>

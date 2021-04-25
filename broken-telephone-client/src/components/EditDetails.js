@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 
+//Components
+import MyButton from '../util/MyButton'
+
 //Actions
 import { editUserDetails } from '../redux/actions/userActions'
 
@@ -13,8 +16,6 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import Tooltip from '@material-ui/core/Tooltip'
-import IconButton from '@material-ui/core/IconButton'
 
 //MUI Icons
 import EditIcon from '@material-ui/icons/Edit'
@@ -64,11 +65,9 @@ const EditDetails = (props) => {
 
   return (
     <>
-      <Tooltip title='Edit Details' placement='top'>
-        <IconButton onClick={handleOpen} className={classes.button}>
-          <EditIcon color='primary' />
-        </IconButton>
-      </Tooltip>
+      <MyButton tip='Edit Details' btnClassName={classes.button} onClick={handleOpen}>
+        <EditIcon color='primary' />
+      </MyButton>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth='xs' aria-labelledby='form-dialog-title'>
         <DialogTitle id='form-dialog-title'>Edit details</DialogTitle>
         <DialogContent>
