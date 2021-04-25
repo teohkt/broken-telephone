@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
-
+import EditDetails from './EditDetails'
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles'
 import Button from '@material-ui/core/Button'
@@ -18,11 +18,13 @@ import LocationOn from '@material-ui/icons/LocationOn'
 import LinkIcon from '@material-ui/icons/Link'
 import TodayIcon from '@material-ui/icons/Today'
 import EditIcon from '@material-ui/icons/Edit'
+import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
 
 //Actions
-import { logout, uploadImage } from '../redux/actions/userActions'
+import { logoutUser, uploadImage } from '../redux/actions/userActions'
 
 const styles = (theme) => ({
+  ...theme.spreadThis,
   paper: {
     padding: 20,
   },
@@ -65,7 +67,7 @@ const styles = (theme) => ({
   buttons: {
     textAlign: 'center',
     '& a': {
-      margin: '20px 10px',
+      margin: '10px',
     },
   },
 })
@@ -73,7 +75,7 @@ const styles = (theme) => ({
 const Profile = (props) => {
   const { classes } = props
   const userStore = useSelector((state) => state.user)
-  const { imageUrl, handle, email, bio, website, createdAt, location } = userStore.credentials
+  const { imageUrl, handle, bio, website, createdAt, location } = userStore.credentials
   const { authenticated, loading } = userStore
 
   const dispatch = useDispatch()
@@ -87,6 +89,9 @@ const Profile = (props) => {
   const handleEditPicture = () => {
     const fileInput = document.getElementById('imageInput')
     fileInput.click()
+  }
+  const handleLogout = () => {
+    dispatch(logoutUser())
   }
 
   let profileMarkup = !loading ? (
@@ -103,6 +108,7 @@ const Profile = (props) => {
             </Tooltip>
           </div>
           <hr />
+
           <div className='profile-details'>
             <MuiLink component={Link} to={`/users/${handle}`} color='primary' variant='h5'>
               @{handle}
@@ -128,6 +134,12 @@ const Profile = (props) => {
             )}
             <TodayIcon color='primary' /> <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
           </div>
+          <Tooltip title='Logout' placement='top'>
+            <IconButton onClick={handleLogout}>
+              <KeyboardReturnIcon color='primary' />
+            </IconButton>
+          </Tooltip>
+          <EditDetails />
         </div>
       </Paper>
     ) : (
@@ -135,7 +147,7 @@ const Profile = (props) => {
         <Typography variant='body2' align='center'>
           No profile found, please login
         </Typography>
-        <div className='classes.buttons'>
+        <div className={classes.buttons}>
           <Button variant='contained' color='primary' component={Link} to='/login'>
             Login
           </Button>
