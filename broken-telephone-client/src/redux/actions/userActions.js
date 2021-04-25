@@ -9,18 +9,16 @@ export const loginUser = (userData, history) => async (dispatch) => {
       setAuthorizationHeader(res.data.token)
       dispatch(getUserData())
       dispatch({ type: CLEAR_ERRORS })
-      history.push('/')
     })
     .catch((error) => {
-      let err = error?.response?.data?.error || {}
       dispatch({
         type: SET_ERRORS,
-        payload: err,
+        payload: error.response.data,
       })
     })
 }
 
-export const signupUser = (newUserData, history) => (dispatch) => {
+export const signupUser = (newUserData) => (dispatch) => {
   dispatch({ type: LOADING_UI })
   axios
     .post('/signup', newUserData)
@@ -28,14 +26,11 @@ export const signupUser = (newUserData, history) => (dispatch) => {
       setAuthorizationHeader(res.data.token)
       dispatch(getUserData())
       dispatch({ type: CLEAR_ERRORS })
-      history.push('/')
     })
-
     .catch((error) => {
-      let err = error?.response?.data?.error || {}
       dispatch({
         type: SET_ERRORS,
-        payload: err,
+        payload: error.response.data,
       })
     })
 }

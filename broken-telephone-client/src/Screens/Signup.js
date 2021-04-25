@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import AppIcon from '../images/broken-telephone.png'
 import { Link } from 'react-router-dom'
@@ -28,6 +28,7 @@ const Signup = (props) => {
 
   const stateUI = useSelector((state) => state.UI)
   const { loading, errors } = stateUI
+  const user = useSelector((state) => state.user.authenticated)
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -37,8 +38,16 @@ const Signup = (props) => {
       confirmPassword: confirmPassword,
       handle: handle,
     }
-    dispatch(signupUser(newUserData, props.history))
+    dispatch(signupUser(newUserData))
   }
+
+  const redirect = props.location.search ? props.location.search.split('=')[1] : '/'
+
+  useEffect(() => {
+    if (user) {
+      props.history.push(redirect)
+    }
+  }, [props.history, user, redirect])
 
   return (
     <Grid container className={classes.form}>
