@@ -42,13 +42,22 @@ exports.validateLoginData = (data) => {
 
 exports.reduceUserDetails = (data) => {
   let userDetails = {}
-  if (!isEmpty(data.bio)) userDetails.bio = data.bio.trim()
-  if (!isEmpty(data.website)) {
-    //https://website.com
-    if (data.website.trim().substring(0, 4) !== 'http') {
-      userDetails.website = `http://${data.website.trim()}`
-    } else userDetails.website = data.website.trim()
-  }
-  if (!isEmpty(data.location)) userDetails.location = data.location.trim()
+  if (data.bio !== '') {
+    if (!isEmpty(data.bio)) userDetails.bio = data.bio.trim()
+  } else userDetails.bio = data.bio
+
+  if (data.website !== '') {
+    if (!isEmpty(data.website)) {
+      //https://website.com
+      if (data.website.trim().substring(0, 4) !== 'http') {
+        userDetails.website = `http://${data.website.trim()}`
+      } else userDetails.website = data.website.trim()
+    }
+  } else userDetails.website = data.website
+
+  if (data.location !== '') {
+    if (!isEmpty(data.location)) userDetails.location = data.location.trim()
+  } else userDetails.location = data.location
+
   return userDetails
 }
