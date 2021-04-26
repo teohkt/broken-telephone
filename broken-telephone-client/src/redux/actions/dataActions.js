@@ -8,6 +8,7 @@ import {
   LOADING_UI,
   SET_SCREAM,
   STOP_LOADING_UI,
+  DELETE_SCREAM,
 } from '../types'
 
 //Get all screams
@@ -61,6 +62,16 @@ export const unlikeScream = (screamId) => (dispatch) => {
         type: UNLIKE_SCREAM,
         payload: res.data,
       })
+    })
+    .catch((err) => console.log(err))
+}
+
+// Delete Scream
+export const deleteScream = (screamId) => (dispatch) => {
+  axios
+    .delete(`/scream/${screamId}`)
+    .then(() => {
+      dispatch({ type: DELETE_SCREAM, payload: screamId })
     })
     .catch((err) => console.log(err))
 }

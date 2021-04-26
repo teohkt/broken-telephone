@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
@@ -18,12 +18,14 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 
 // Components
 import MyButton from '../util/MyButton'
+import DeleteScream from './DeleteScream'
 
 // Actions
-import { likeScream, unlikeScream, getScreams } from '../redux/actions/dataActions'
+import { likeScream, unlikeScream } from '../redux/actions/dataActions'
 
 const styles = {
   card: {
+    position: 'relative',
     display: 'flex',
     marginBottom: 20,
   },
@@ -42,6 +44,8 @@ const ScreamCard = (props) => {
     scream: { body, createdAt, userHandle, userImage, likeCount, commentCount, screamId },
   } = props
 
+  dayjs.extend(relativeTime)
+
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
 
@@ -57,10 +61,6 @@ const ScreamCard = (props) => {
     dispatch(unlikeScream(screamId))
   }
 
-  useEffect(() => {
-    dispatch(getScreams)
-  }, [user])
-
   const likeButton = !user.authenticated ? (
     <MyButton tip='Like'>
       <Link to='/login'>
@@ -68,7 +68,7 @@ const ScreamCard = (props) => {
       </Link>
     </MyButton>
   ) : likedScreamStatus() ? (
-    <MyButton tip='Undo like' onClick={unlikeScreamAction}>
+    <MyButton tip='Undo like'>
       <FavoriteIcon color='primary' />
     </MyButton>
   ) : (
@@ -77,9 +77,8 @@ const ScreamCard = (props) => {
     </MyButton>
   )
 
-  dayjs.extend(relativeTime)
-
-  useEffect(() => {}, [{ likeCount }])
+  const deleteButton =
+    user.authenticated && userHandle === user.credentials.handle ? <DeleteScream screamId={screamId} /> : null
 
   return (
     <Card className={classes.card}>
@@ -88,6 +87,8 @@ const ScreamCard = (props) => {
         <Typography variant='h5' component={Link} to={`/users/${userHandle}`} color='primary'>
           {userHandle}
         </Typography>
+
+        {deleteButton}
         <Typography variant='body2' color='textSecondary'>
           {dayjs(createdAt).fromNow()}
         </Typography>
