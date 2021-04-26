@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 //Components
 import MyButton from '../util/MyButton'
+import PostScream from './PostScream'
 
 //Material UI
 import AppBar from '@material-ui/core/AppBar'
@@ -13,7 +14,6 @@ import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
 
 //Icons
-import AddIcon from '@material-ui/icons/Add'
 import HomeIcon from '@material-ui/icons/Home'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 
@@ -25,9 +25,7 @@ const Navbar = () => {
         <Toolbar className='nav-container'>
           {authenticated ? (
             <>
-              <MyButton tip='Create a Scream!'>
-                <AddIcon />
-              </MyButton>
+              <PostScream />
 
               <MyButton tip='Notifications'>
                 <NotificationsIcon />

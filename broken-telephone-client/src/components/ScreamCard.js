@@ -68,7 +68,7 @@ const ScreamCard = (props) => {
       </Link>
     </MyButton>
   ) : likedScreamStatus() ? (
-    <MyButton tip='Undo like'>
+    <MyButton tip='Undo like' onClick={unlikeScreamAction}>
       <FavoriteIcon color='primary' />
     </MyButton>
   ) : (

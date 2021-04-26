@@ -33,7 +33,7 @@ exports.postOneScream = (req, res) => {
     .then((doc) => {
       const resScream = newScream
       resScream.screamId = doc.id
-      res.json({ message: `document ${doc.id} created successfully`, resScream: resScream })
+      res.json(resScream)
     })
     .catch((err) => {
       res.status(500).json({ error: 'Something went wrong' })
