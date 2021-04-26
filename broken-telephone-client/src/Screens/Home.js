@@ -1,40 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+// MUI
 import Grid from '@material-ui/core/Grid'
-import axios from 'axios'
 
 // Components
 import ScreamCard from '../components/ScreamCard'
 import Profile from '../components/Profile'
 
+// Actions
+import { getScreams } from '../redux/actions/dataActions'
+
 const Home = () => {
-  const [screams, setScreams] = useState()
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState({})
+  const { screams, isLoading, error } = useSelector((state) => state.data)
 
-  const retrieveData = async () => {
-    setIsLoading(true)
-    setError(null)
-
-    try {
-      const { data } = await axios.get(`/screams`)
-      setScreams(data)
-      setIsLoading(false)
-    } catch (err) {
-      setError(err)
-      setIsLoading(false)
-    }
-  }
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    retrieveData()
-  }, [])
+    dispatch(getScreams())
+  }, [dispatch])
 
   return (
     <Grid container spacing={2}>
       <Grid item sm={8} xs={12}>
         {isLoading && 'Loading'}
         {error && 'Error'}
-        {screams ? screams.map((scream) => <ScreamCard key={scream.docId} scream={scream} />) : ''}
+        {screams ? screams.map((scream) => <ScreamCard key={scream.screamId} scream={scream} />) : ''}
       </Grid>
       <Grid item sm={4} xs={12}>
         <Profile />
