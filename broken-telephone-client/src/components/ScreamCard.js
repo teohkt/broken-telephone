@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -13,16 +13,12 @@ import CardMedia from '@material-ui/core/CardMedia'
 
 // MUI Icons
 import ChatIcon from '@material-ui/icons/Chat'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 
 // Components
 import MyButton from '../util/MyButton'
 import DeleteScream from './DeleteScream'
 import ScreamDialog from './ScreamDialog'
-
-// Actions
-import { likeScream, unlikeScream } from '../redux/actions/dataActions'
+import LikeButton from './LikeButton'
 
 const styles = {
   card: {
@@ -47,36 +43,7 @@ const ScreamCard = (props) => {
 
   dayjs.extend(relativeTime)
 
-  const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
-
-  const likedScreamStatus = () => {
-    if (user.likes && user.likes.find((like) => like.screamId === screamId)) return true
-    else return false
-  }
-
-  const likeScreamAction = () => {
-    dispatch(likeScream(screamId))
-  }
-  const unlikeScreamAction = () => {
-    dispatch(unlikeScream(screamId))
-  }
-
-  const likeButton = !user.authenticated ? (
-    <MyButton tip='Like'>
-      <Link to='/login'>
-        <FavoriteBorderIcon color='primary' />
-      </Link>
-    </MyButton>
-  ) : likedScreamStatus() ? (
-    <MyButton tip='Undo like' onClick={unlikeScreamAction}>
-      <FavoriteIcon color='primary' />
-    </MyButton>
-  ) : (
-    <MyButton tip='Like' onClick={likeScreamAction}>
-      <FavoriteBorderIcon color='primary' />
-    </MyButton>
-  )
 
   const deleteButton =
     user.authenticated && userHandle === user.credentials.handle ? <DeleteScream screamId={screamId} /> : null
@@ -95,7 +62,7 @@ const ScreamCard = (props) => {
         </Typography>
         <Typography variant='body1'>{body}</Typography>
 
-        {likeButton}
+        <LikeButton screamId={screamId} />
         <span>{likeCount}</span>
 
         <MyButton tip='comments'>
