@@ -72,6 +72,7 @@ const Login = (props) => {
             name='password'
             type='password'
             label='Password'
+            autoComplete='current-password'
             className={classes.textField}
             helperText={errors.password}
             error={errors.password && true}

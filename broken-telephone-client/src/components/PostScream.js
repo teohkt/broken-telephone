@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MyButton from '../util/MyButton'
 
 //Actions
-import { postScream } from '../redux/actions/dataActions'
+import { postScream, clearErrors } from '../redux/actions/dataActions'
 
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -25,11 +25,14 @@ const styles = (theme) => ({
   ...theme.spreadThis,
   closeButton: {
     position: 'absolute',
-    left: '90%',
-    top: '10%',
+    right: 0,
+    top: '3%',
   },
   submitButton: {
     position: 'relative',
+    float: 'right',
+    marginTop: 10,
+    marginBottom: 10,
   },
   progressSpinner: {
     position: 'absolute',
@@ -49,6 +52,7 @@ const PostScream = (props) => {
   }
   const handleClose = () => {
     setOpen(false)
+    dispatch(clearErrors())
   }
 
   const handleSubmit = (e) => {
@@ -59,14 +63,15 @@ const PostScream = (props) => {
   useEffect(() => {
     setOpen(false)
     setBody('')
-  }, [screams.length])
+    dispatch(clearErrors())
+  }, [screams.length, dispatch])
 
   return (
     <>
       <MyButton tip='Post a Scream!' onClick={handleOpen}>
         <AddIcon />
       </MyButton>
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth='sm'>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth='xs'>
         <MyButton tip='Close' onClick={handleClose} tipClassName={classes.closeButton}>
           <CloseIcon />
         </MyButton>
@@ -85,6 +90,7 @@ const PostScream = (props) => {
               className={classes.textField}
               onChange={(e) => setBody(e.target.value)}
               fullWidth
+              required
             ></TextField>
             <Button
               type='submit'
