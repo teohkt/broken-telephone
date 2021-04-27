@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import EditDetails from './EditDetails'
 
 //Components
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -23,7 +23,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
 
 //Actions
-import { logoutUser, uploadImage } from '../redux/actions/userActions'
+import { logoutUser, uploadImage } from '../../redux/actions/userActions'
 
 const styles = (theme) => ({
   ...theme.spreadThis,

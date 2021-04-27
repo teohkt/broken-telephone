@@ -4,11 +4,12 @@ import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
 
 // Components
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 import LikeButton from './LikeButton'
+import Comments from './Comments'
 
 // Actions
-import { getScream } from '../redux/actions/dataActions'
+import { getScream } from '../../redux/actions/dataActions'
 
 // MUI
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -26,10 +27,6 @@ import ChatIcon from '@material-ui/icons/Chat'
 
 const styles = (theme) => ({
   ...theme.spreadThis,
-  invisibleSeparator: {
-    border: 'none',
-    margin: 4,
-  },
   profileImage: {
     maxWidth: 175,
     height: 175,
@@ -60,16 +57,8 @@ const ScreamDialog = (props) => {
   const [open, setOpen] = useState(false)
 
   const dispatch = useDispatch()
-  const {
-    screamId: stateScreamId,
-    body,
-    createdAt,
-    likeCount,
-    commentCount,
-    userImage,
-    userHandle: stateUserHandle,
-  } = useSelector((state) => state.data.scream)
-  const { loading, errors } = useSelector((state) => state.UI)
+  const { body, createdAt, likeCount, commentCount, userImage, comments } = useSelector((state) => state.data.scream)
+  const { loading } = useSelector((state) => state.UI)
 
   const handleOpen = () => {
     setOpen(true)
@@ -106,6 +95,8 @@ const ScreamDialog = (props) => {
         </MyButton>
         <span>{commentCount}</span>
       </Grid>
+      <hr className={classes.visibleSeparator} />
+      <Comments comments={comments} />
     </Grid>
   )
 

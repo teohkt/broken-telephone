@@ -7,10 +7,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 
 // Actions
-import { likeScream, unlikeScream } from '../redux/actions/dataActions'
+import { likeScream, unlikeScream } from '../../redux/actions/dataActions'
 
 // Components
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 
 const LikeButton = ({ screamId }) => {
   const user = useSelector((state) => state.user)

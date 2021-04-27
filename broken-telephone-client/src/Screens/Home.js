@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 
 // Components
-import ScreamCard from '../components/ScreamCard'
-import Profile from '../components/Profile'
+import ScreamCard from '../components/scream/ScreamCard'
+import Profile from '../components/profile/Profile'
 
 // Actions
 import { getScreams } from '../redux/actions/dataActions'

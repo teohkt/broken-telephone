@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 
 //Components
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 
 //Actions
-import { postScream, clearErrors } from '../redux/actions/dataActions'
+import { postScream, clearErrors } from '../../redux/actions/dataActions'
 
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles'

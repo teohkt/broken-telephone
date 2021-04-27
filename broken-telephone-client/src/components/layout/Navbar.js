@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 // import PropTypes from 'prop-types'
 
 //Components
-import MyButton from '../util/MyButton'
-import PostScream from './PostScream'
+import MyButton from '../../util/MyButton'
+import PostScream from '../scream/PostScream'
 
 //Material UI
 import AppBar from '@material-ui/core/AppBar'
