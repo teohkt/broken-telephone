@@ -30,7 +30,7 @@ const CommentForm = ({ classes, screamId }) => {
   useEffect(() => {
     setComment('')
     dispatch(clearErrors())
-  }, [comments.length])
+  }, [dispatch, comments.length])
   return (
     <>
       {authenticated ? (
