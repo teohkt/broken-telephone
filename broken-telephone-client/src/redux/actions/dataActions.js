@@ -12,6 +12,7 @@ import {
   POST_SCREAM,
   SET_ERRORS,
   CLEAR_ERRORS,
+  SUBMIT_COMMENT,
 } from '../types'
 
 //Get all screams
@@ -40,7 +41,13 @@ export const postScream = (newScream) => (dispatch) => {
         type: POST_SCREAM,
         payload: res.data,
       })
-      dispatch({ type: CLEAR_ERRORS })
+      dispatch(clearErrors())
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      })
     })
     .catch((err) => {
       dispatch({
@@ -91,6 +98,25 @@ export const unlikeScream = (screamId) => (dispatch) => {
     .catch((err) => console.log(err))
 }
 
+// Submit a comment
+export const submitComment = (screamId, commentData) => (dispatch) => {
+  axios
+    .post(`/scream/${screamId}/comment`, commentData)
+    .then((res) => {
+      dispatch({
+        type: SUBMIT_COMMENT,
+        payload: res.data,
+      })
+      dispatch(clearErrors())
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      })
+    })
+}
+
 // Delete Scream
 export const deleteScream = (screamId) => (dispatch) => {
   axios
@@ -101,6 +127,7 @@ export const deleteScream = (screamId) => (dispatch) => {
     .catch((err) => console.log(err))
 }
 
+// Clear Errors
 export const clearErrors = () => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS })
 }

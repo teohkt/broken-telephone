@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom'
 import MyButton from '../../util/MyButton'
 import LikeButton from './LikeButton'
 import Comments from './Comments'
+import CommentForm from './CommentForm'
 
 // Actions
-import { getScream } from '../../redux/actions/dataActions'
+import { getScream, clearErrors } from '../../redux/actions/dataActions'
 
 // MUI
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -66,6 +67,7 @@ const ScreamDialog = (props) => {
   }
   const handleClose = () => {
     setOpen(false)
+    dispatch(clearErrors())
   }
 
   const dialogMarkup = loading ? (
@@ -96,6 +98,7 @@ const ScreamDialog = (props) => {
         <span>{commentCount}</span>
       </Grid>
       <hr className={classes.visibleSeparator} />
+      <CommentForm screamId={screamId} />
       <Comments comments={comments} />
     </Grid>
   )
