@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import { Link } from 'react-router-dom'
@@ -54,21 +54,42 @@ const styles = (theme) => ({
 })
 
 const ScreamDialog = (props) => {
-  const { classes, screamId, userHandle } = props
+  const { classes, screamId, userHandle, openDialog } = props
   const [open, setOpen] = useState(false)
+  const [oldPath, setOldPath] = useState('')
 
   const dispatch = useDispatch()
   const { body, createdAt, likeCount, commentCount, userImage, comments } = useSelector((state) => state.data.scream)
   const { loading } = useSelector((state) => state.UI)
 
   const handleOpen = () => {
+    let oldLinkDirect = window.location.pathname
+    let newLinkDirect = `/users/${userHandle}/scream/${screamId}`
+
+    if (oldLinkDirect === newLinkDirect) {
+      setOldPath(`/users/${userHandle}`)
+    } else {
+      setOldPath(oldLinkDirect)
+    }
+
+    window.history.pushState(null, null, newLinkDirect)
+
     setOpen(true)
     dispatch(getScream(screamId))
   }
   const handleClose = () => {
+    window.history.pushState(null, null, oldPath)
     setOpen(false)
     dispatch(clearErrors())
   }
+
+  useEffect(() => {
+    if (openDialog) {
+      handleOpen()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openDialog])
 
   const dialogMarkup = loading ? (
     <div className={classes.spinnerDiv}>

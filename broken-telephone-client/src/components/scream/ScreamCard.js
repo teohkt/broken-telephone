@@ -39,6 +39,7 @@ const ScreamCard = (props) => {
   const {
     classes,
     scream: { body, createdAt, userHandle, userImage, likeCount, commentCount, screamId },
+    openDialog,
   } = props
 
   dayjs.extend(relativeTime)
@@ -69,7 +70,7 @@ const ScreamCard = (props) => {
           <ChatIcon color='primary'></ChatIcon>
         </MyButton>
         <span>{commentCount}</span>
-        <ScreamDialog screamId={screamId} userHandle={userHandle} />
+        <ScreamDialog screamId={screamId} userHandle={userHandle} openDialog={openDialog} />
       </CardContent>
     </Card>
   )
