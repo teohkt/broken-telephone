@@ -47,8 +47,8 @@ const styles = (theme) => ({
 })
 
 const StaticProfile = (props) => {
-  const { classes } = props
-  const { handle, createdAt, imageUrl, bio, website, location } = props.profile.data.user
+  const { classes, profile } = props
+  const { handle, createdAt, imageUrl, bio, website, location } = profile.user
 
   return (
     <Paper className={classes.paper}>

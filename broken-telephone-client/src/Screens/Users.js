@@ -14,17 +14,16 @@ import { getUserData } from '../redux/actions/dataActions'
 
 const Users = (props) => {
   const handle = props.match.params.handle
-  const [profile, setProfile] = useState('')
+  const [profile, setProfile] = useState(null)
   const { screams, loading } = useSelector((state) => state.data)
 
   const dispatch = useDispatch()
-
   useEffect(() => {
     dispatch(getUserData(handle))
     axios
       .get(`/user/${handle}`)
       .then((res) => {
-        setProfile(res)
+        setProfile(res.data)
       })
       .catch((err) => console.log(err))
   }, [dispatch, handle])
