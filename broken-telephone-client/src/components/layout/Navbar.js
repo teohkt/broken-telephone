@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 //Components
 import MyButton from '../../util/MyButton'
 import PostScream from '../scream/PostScream'
+import Notifications from './Notifications'
 
 //Material UI
 import AppBar from '@material-ui/core/AppBar'
@@ -15,7 +16,6 @@ import Container from '@material-ui/core/Container'
 
 //Icons
 import HomeIcon from '@material-ui/icons/Home'
-import NotificationsIcon from '@material-ui/icons/Notifications'
 
 const Navbar = () => {
   const { authenticated } = useSelector((state) => state.user)
@@ -26,10 +26,7 @@ const Navbar = () => {
           {authenticated ? (
             <>
               <PostScream />
-
-              <MyButton tip='Notifications'>
-                <NotificationsIcon />
-              </MyButton>
+              <Notifications />
               <Link to='/'>
                 <MyButton tip='Home'>
                   <HomeIcon />
