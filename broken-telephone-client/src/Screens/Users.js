@@ -8,6 +8,8 @@ import Grid from '@material-ui/core/Grid'
 // Components
 import ScreamCard from '../components/scream/ScreamCard'
 import StaticProfile from '../components/profile/StaticProfile'
+import ScreamSkeleton from '../util/ScreamSkeleton'
+import ProfileSkeleton from '../util/ProfileSkeleton'
 
 // Actions
 import { getUserData } from '../redux/actions/dataActions'
@@ -33,7 +35,7 @@ const Users = (props) => {
     <Grid container spacing={2}>
       <Grid item sm={8} xs={12}>
         {loading ? (
-          <p>Loading data...</p>
+          <ScreamSkeleton />
         ) : screams === null ? (
           <p>No screams from this user</p>
         ) : !screamIdParam ? (
@@ -46,7 +48,7 @@ const Users = (props) => {
         )}
       </Grid>
       <Grid item sm={4} xs={12}>
-        {profile === null ? <p>Loading Profile...</p> : <StaticProfile profile={profile} />}
+        {profile === null ? <ProfileSkeleton /> : <StaticProfile profile={profile} />}
       </Grid>
     </Grid>
   )
