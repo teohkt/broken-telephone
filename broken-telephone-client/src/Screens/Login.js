@@ -66,6 +66,7 @@ const Login = (props) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
+            aria-invalid='false'
           />
           <TextField
             id='password'

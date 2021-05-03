@@ -12,6 +12,7 @@ const customTheme = {
       dark: '#8aacc8',
       contrastText: '#000000',
     },
+    spacing: 8,
   },
   spreadThis: {
     typography: {
@@ -76,6 +77,12 @@ const customTheme = {
       '& hr': {
         border: 'none',
         margin: '0 0 10px 0',
+      },
+    },
+    buttons: {
+      textAlign: 'center',
+      '& a': {
+        margin: '20px 10px',
       },
     },
     card: {

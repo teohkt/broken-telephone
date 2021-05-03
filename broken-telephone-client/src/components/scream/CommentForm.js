@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 // Actions
 import { submitComment, clearErrors } from '../../redux/actions/dataActions'
@@ -24,7 +25,6 @@ const CommentForm = ({ classes, screamId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('submitted data: ' + comment)
     dispatch(submitComment(screamId, { body: comment }))
   }
   useEffect(() => {
@@ -36,25 +36,37 @@ const CommentForm = ({ classes, screamId }) => {
       {authenticated ? (
         <Grid item sm={12} style={{ textAlign: 'center' }}>
           <form onSubmit={handleSubmit}>
-            <TextField
-              name='body'
-              type='text'
-              label='Comment on scream'
-              error={errors.comment ? true : false}
-              helperText={errors.comment}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              fullWidth
-              className={classes.textField}
-            />
-            <Button type='submit' variant='contained' color='primary' className={classes.button}>
-              Submit
-            </Button>
+            <Grid container>
+              <Grid item sm={8}>
+                <TextField
+                  name='body'
+                  type='text'
+                  label='Comment on scream'
+                  error={errors.comment ? true : false}
+                  helperText={errors.comment}
+                  fullWidth
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  className={classes.textField}
+                />
+              </Grid>
+              <Grid item sm={4}>
+                <Button type='submit' variant='contained' color='primary' className={classes.button}>
+                  Submit
+                </Button>
+              </Grid>
+            </Grid>
           </form>
           <hr className={classes.visibleSeparator} />
         </Grid>
       ) : (
-        ''
+        <p style={{ marginLeft: '20px' }}>
+          Please{' '}
+          <Link to={'/login'}>
+            <strong>login</strong>
+          </Link>{' '}
+          to leave a comment
+        </p>
       )}
     </>
   )

@@ -8,14 +8,9 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 
-// MUI Icons
-import ChatIcon from '@material-ui/icons/Chat'
-
 // Components
-import MyButton from '../../util/MyButton'
 import DeleteScream from './DeleteScream'
 import ScreamDialog from './ScreamDialog'
 import LikeButton from './LikeButton'
@@ -27,11 +22,22 @@ const styles = {
     marginBottom: 20,
   },
   image: {
-    minWidth: 200,
+    width: 100,
+    height: 100,
+    objectFit: 'cover',
+    margin: 20,
+    borderRadius: '50%',
   },
   content: {
-    padding: 25,
+    padding: '25px 0 0 25px',
     objectFit: 'cover',
+    paddingBottom: 0,
+  },
+  message: {
+    padding: '16px 0',
+  },
+  actionButtons: {
+    marginLeft: '-12px',
   },
 }
 
@@ -52,7 +58,7 @@ const ScreamCard = (props) => {
   return (
     <Card className={classes.card}>
       <CardMedia image={userImage} title='Profile image' className={classes.image} />
-      <CardContent className={classes.content}>
+      <div className={classes.content}>
         <Typography variant='h5' component={Link} to={`/users/${userHandle}`} color='primary'>
           {userHandle}
         </Typography>
@@ -61,17 +67,18 @@ const ScreamCard = (props) => {
         <Typography variant='body2' color='textSecondary'>
           {dayjs(createdAt).fromNow()}
         </Typography>
-        <Typography variant='body1'>{body}</Typography>
+        <Typography variant='body1' className={classes.message}>
+          {body}
+        </Typography>
 
-        <LikeButton screamId={screamId} />
-        <span>{likeCount}</span>
+        <div className={classes.actionButtons}>
+          <LikeButton screamId={screamId} />
+          <span style={{ paddingRight: '60px' }}>{likeCount}</span>
 
-        <MyButton tip='comments'>
-          <ChatIcon color='primary'></ChatIcon>
-        </MyButton>
-        <span>{commentCount}</span>
-        <ScreamDialog screamId={screamId} userHandle={userHandle} openDialog={openDialog} />
-      </CardContent>
+          <ScreamDialog screamId={screamId} userHandle={userHandle} openDialog={openDialog} />
+          <span>{commentCount}</span>
+        </div>
+      </div>
     </Card>
   )
 }

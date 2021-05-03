@@ -22,9 +22,8 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 // MUI Icons
-import UnfoldMore from '@material-ui/icons/UnfoldMore'
-import CloseIcon from '@material-ui/icons/Close'
 import ChatIcon from '@material-ui/icons/Chat'
+import CloseIcon from '@material-ui/icons/Close'
 
 const styles = (theme) => ({
   ...theme.spreadThis,
@@ -42,14 +41,16 @@ const styles = (theme) => ({
     right: '1%',
     top: '4%',
   },
-  expandButton: {
-    position: 'absolute',
-    right: '3%',
-  },
   spinnerDiv: {
     textAlign: 'center',
     marginTop: 50,
     marginBottom: 50,
+  },
+  message: {
+    padding: '16px 0',
+  },
+  actionButtons: {
+    marginLeft: '-12px',
   },
 })
 
@@ -96,11 +97,11 @@ const ScreamDialog = (props) => {
       <CircularProgress size={100} thickness={2} />
     </div>
   ) : (
-    <Grid container spacing={6}>
+    <Grid container>
       <Grid item sm={5}>
         <img src={userImage} alt='Profile' className={classes.profileImage} />
       </Grid>
-      <Grid item sm={7}>
+      <Grid item sm={6}>
         <Typography component={Link} color='primary' variant='h5' to={`/users/${userHandle}`}>
           @{userHandle}
         </Typography>
@@ -109,14 +110,18 @@ const ScreamDialog = (props) => {
           {dayjs(createdAt).format('h:mm a, MMM DD YYYY')}
         </Typography>
         <hr className={classes.invisibleSeparator} />
-        <Typography variant='body1'>{body}</Typography>
-        <LikeButton screamId={screamId} />
-        <span>{likeCount}</span>
+        <Typography variant='body1' className={classes.message}>
+          {body}
+        </Typography>
+        <div className={classes.actionButtons}>
+          <LikeButton screamId={screamId} />
+          <span style={{ paddingRight: '60px' }}>{likeCount}</span>
 
-        <MyButton tip='comments'>
-          <ChatIcon color='primary'></ChatIcon>
-        </MyButton>
-        <span>{commentCount}</span>
+          <MyButton tip='comments'>
+            <ChatIcon color='primary'></ChatIcon>
+          </MyButton>
+          <span>{commentCount}</span>
+        </div>
       </Grid>
       <hr className={classes.visibleSeparator} />
       <CommentForm screamId={screamId} />
@@ -126,10 +131,10 @@ const ScreamDialog = (props) => {
 
   return (
     <>
-      <MyButton onClick={handleOpen} tip='Expand Scream' tipClassName={classes.expandButton}>
-        <UnfoldMore color='primary' />
+      <MyButton onClick={handleOpen} tip='Comments'>
+        <ChatIcon color='primary'></ChatIcon>
       </MyButton>
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth='sm'>
+      <Dialog open={open} onClose={handleClose} fullWidth>
         <MyButton tip='Close' onClick={handleClose} tipClassName={classes.closeButton}>
           <CloseIcon />
         </MyButton>
