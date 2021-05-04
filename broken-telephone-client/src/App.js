@@ -26,6 +26,8 @@ import User from './Screens/Users'
 
 const theme = createMuiTheme(customTheme)
 
+axios.defaults.baseURL = 'https://us-central1-screams-e95cf.cloudfunctions.net/api'
+
 const token = localStorage.FBIdToken
 if (token) {
   const decodedToken = jwtDecode(token)
