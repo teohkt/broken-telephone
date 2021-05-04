@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 // Actions
-import { submitComment, clearErrors } from '../../redux/actions/dataActions'
+import { submitComment, clearErrors, getScream } from '../../redux/actions/dataActions'
 
 // MUI
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -26,6 +26,7 @@ const CommentForm = ({ classes, screamId }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(submitComment(screamId, { body: comment }))
+    dispatch(getScream(screamId))
   }
   useEffect(() => {
     setComment('')

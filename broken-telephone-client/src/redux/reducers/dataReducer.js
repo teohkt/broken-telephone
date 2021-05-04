@@ -59,10 +59,14 @@ export default function foo(state = initialState, action) {
         screams: [action.payload, ...state.screams],
       }
     case SUBMIT_COMMENT:
+      let indexScream = state.screams.findIndex((scream) => scream.screamId === action.payload.screamId)
+      state.screams[indexScream].commentCount = Number(state.scream.commentCount) + 1
+
       return {
         ...state,
         scream: {
           ...state.scream,
+          commentCount: Number(state.scream.commentCount) + 1,
           comments: [action.payload, ...state.scream.comments],
         },
       }

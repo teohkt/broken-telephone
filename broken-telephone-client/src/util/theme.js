@@ -54,6 +54,7 @@ const customTheme = {
       padding: 20,
     },
     profile: {
+      position: 'relative',
       '& .image-wrapper': {
         textAlign: 'center',
         position: 'relative',
@@ -88,11 +89,6 @@ const customTheme = {
     card: {
       display: 'flex',
       marginBottom: 20,
-    },
-    cardContent: {
-      width: '100%',
-      flexDirection: 'column',
-      padding: 25,
     },
     cover: {
       minWidth: 200,

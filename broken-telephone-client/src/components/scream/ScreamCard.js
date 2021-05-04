@@ -34,7 +34,7 @@ const styles = {
     paddingBottom: 0,
   },
   message: {
-    padding: '16px 0',
+    padding: '16px 8px 16px 0',
   },
   actionButtons: {
     marginLeft: '-12px',

@@ -16,14 +16,19 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import Fade from '@material-ui/core/Fade'
 
 //MUI Icons
-import EditIcon from '@material-ui/icons/Edit'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
 
 const styles = (theme) => ({
   ...theme.spreadThis,
-  button: {
-    float: 'right',
+  editProfileButton: {
+    left: '86%',
+    top: '0%',
+    position: 'absolute',
   },
 })
 
@@ -33,17 +38,34 @@ const EditDetails = (props) => {
   const [website, setWebsite] = useState('')
   const [location, setLocation] = useState('')
   const [open, setOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const openMenu = Boolean(anchorEl)
 
   const dispatch = useDispatch()
 
   const { bio: userBio, website: userWebsite, location: userLocation } = useSelector((store) => store.user.credentials)
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleMenuClose = () => {
+    setAnchorEl(null)
+  }
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById('imageInput')
+    fileInput.click()
+    handleMenuClose()
+  }
 
   const handleOpen = () => {
     setBio(userBio ? userBio : '')
     setWebsite(userWebsite ? userWebsite : '')
     setLocation(userLocation ? userLocation : '')
     setOpen(true)
+    handleMenuClose()
   }
+
   const handleClose = () => {
     setOpen(false)
   }
@@ -59,15 +81,32 @@ const EditDetails = (props) => {
     if (!location) {
       setLocation('0')
     }
-    console.log('bio: ' + typeof bio + typeof website + typeof location)
     dispatch(editUserDetails({ bio, website, location }))
   }
 
   return (
     <>
-      <MyButton tip='Edit Details' btnClassName={classes.button} onClick={handleOpen}>
-        <EditIcon color='primary' />
+      <MyButton
+        tip='Edit Profile'
+        aria-controls='fade-menu'
+        aria-haspopup='true'
+        onClick={handleMenuClick}
+        btnClassName={classes.editProfileButton}
+      >
+        <MoreVertIcon color='primary'></MoreVertIcon>
       </MyButton>
+      <Menu
+        id='fade-menu'
+        anchorEl={anchorEl}
+        keepMounted
+        open={openMenu}
+        onClose={handleMenuClose}
+        TransitionComponent={Fade}
+      >
+        <MenuItem onClick={handleEditPicture}>Edit Profile Picture</MenuItem>
+        <MenuItem onClick={handleOpen}>Edit Bio</MenuItem>
+      </Menu>
+
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth='xs' aria-labelledby='form-dialog-title'>
         <DialogTitle id='form-dialog-title'>Edit details</DialogTitle>
         <DialogContent>

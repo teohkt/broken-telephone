@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import EditDetails from './EditDetails'
 
 //Components
-import MyButton from '../../util/MyButton'
 import ProfileSkeleton from '../../util/ProfileSkeleton'
 
 //MUI
@@ -20,11 +19,9 @@ import Paper from '@material-ui/core/Paper'
 import LocationOn from '@material-ui/icons/LocationOn'
 import LinkIcon from '@material-ui/icons/Link'
 import TodayIcon from '@material-ui/icons/Today'
-import EditIcon from '@material-ui/icons/Edit'
-import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn'
 
 //Actions
-import { logoutUser, uploadImage } from '../../redux/actions/userActions'
+import { uploadImage } from '../../redux/actions/userActions'
 
 const styles = (theme) => ({
   ...theme.spreadThis,
@@ -44,13 +41,6 @@ const Profile = (props) => {
     formData.append('image', image, image.name)
     dispatch(uploadImage(formData))
   }
-  const handleEditPicture = () => {
-    const fileInput = document.getElementById('imageInput')
-    fileInput.click()
-  }
-  const handleLogout = () => {
-    dispatch(logoutUser())
-  }
 
   let profileMarkup = !loading ? (
     authenticated ? (
@@ -59,10 +49,8 @@ const Profile = (props) => {
           <div className='image-wrapper'>
             <img src={imageUrl} alt='Profile' className='profile-image' />
             <input type='file' id='imageInput' hidden='hidden' onChange={handleImageChange} />
-            <MyButton tip='Edit Profile Picture' onClick={handleEditPicture}>
-              <EditIcon color='primary'></EditIcon>
-            </MyButton>
           </div>
+
           <hr />
 
           <div className='profile-details'>
@@ -90,9 +78,6 @@ const Profile = (props) => {
             )}
             <TodayIcon color='primary' /> <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span>
           </div>
-          <MyButton tip='Logout' onClick={handleLogout} className=''>
-            <KeyboardReturnIcon color='primary' />
-          </MyButton>
           <EditDetails />
         </div>
       </Paper>

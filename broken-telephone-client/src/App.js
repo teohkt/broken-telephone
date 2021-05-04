@@ -13,6 +13,8 @@ import { logoutUser, getUserData } from './redux/actions/userActions'
 
 // Components
 import Navbar from './components/layout/Navbar'
+import Footer from './components/layout/Footer'
+
 import customTheme from './util/theme'
 import AuthRoute from './util/AuthRoute'
 
@@ -52,6 +54,7 @@ function App() {
               <Route path='/users/:handle/scream/:screamId' exact component={User} />
             </Switch>
           </div>
+          <Footer />
         </Router>
       </Provider>
     </MuiThemeProvider>

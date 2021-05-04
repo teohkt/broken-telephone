@@ -27,7 +27,7 @@ const Notifications = () => {
   dayjs.extend(relativeTime)
   const dispatch = useDispatch()
   const handleOpen = (e) => {
-    setAnchorEl(e.target)
+    setAnchorEl(e.currentTarget)
   }
 
   const handleClose = () => {
@@ -87,7 +87,7 @@ const Notifications = () => {
   return (
     <MenuItem>
       <Tooltip placement='top' title='Notifications'>
-        <IconButton aria-owns={anchorEl ? 'simple-menu' : undefined} aria-haspopup='true' onClick={handleOpen}>
+        <IconButton aria-owns='simple-menu' aria-haspopup='true' onClick={handleOpen}>
           {notificationsIcon}
         </IconButton>
       </Tooltip>
