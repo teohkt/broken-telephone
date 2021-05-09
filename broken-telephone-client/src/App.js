@@ -5,6 +5,8 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
+import firebase from 'firebase/app'
+
 // Redux
 import { Provider } from 'react-redux'
 import store from './redux/store'
@@ -25,6 +27,9 @@ import Signup from './Screens/Signup'
 import User from './Screens/Users'
 
 const theme = createMuiTheme(customTheme)
+
+const config = require('./util/config')
+firebase.initializeApp(config)
 
 axios.defaults.baseURL = 'https://us-central1-screams-e95cf.cloudfunctions.net/api'
 

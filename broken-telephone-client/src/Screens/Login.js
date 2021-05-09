@@ -3,6 +3,10 @@ import PropTypes from 'prop-types'
 import AppIcon from '../images/broken-telephone.png'
 import { Link } from 'react-router-dom'
 
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
 //MUI
 import withStyles from '@material-ui/core/styles/withStyles'
 import Grid from '@material-ui/core/Grid'
@@ -16,6 +20,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../redux/actions/userActions'
 
 const styles = (theme) => ({ ...theme.spreadThis })
+
+const uiConfig = {
+  // Popup signin flow rather than redirect flow.
+  signInFlow: 'popup',
+  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+  // signInSuccessUrl: '/',
+  // We will display Google and Facebook as auth providers.
+  signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID, firebase.auth.GithubAuthProvider.PROVIDER_ID],
+}
 
 const Login = (props) => {
   const { classes } = props
@@ -44,7 +57,25 @@ const Login = (props) => {
     if (user) {
       props.history.push(redirect)
     }
-  }, [props.history, user, redirect])
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
+      if (firebase.auth().currentUser) {
+        firebase
+          .auth()
+          .currentUser.getIdToken()
+          .then((token) => {
+            const userDataViaAuth = {
+              email: firebase.auth().currentUser.email,
+              // photoURL: firebase.auth().currentUser.photoURL,
+              token: token,
+              // uid: firebase.auth().currentUser.uid,
+              // handle: firebase.auth().currentUser.uid,
+            }
+            dispatch(loginUser(userDataViaAuth))
+          })
+      }
+    })
+    return () => unregisterAuthObserver() // Make sure we un-register Firebase observers when the component unmounts.
+  }, [props.history, user, redirect, dispatch])
 
   return (
     <Grid container className={classes.form}>
@@ -67,6 +98,7 @@ const Login = (props) => {
             onChange={(e) => setEmail(e.target.value)}
             fullWidth
             aria-invalid='false'
+            autoComplete='username'
           />
           <TextField
             id='password'
@@ -102,6 +134,9 @@ const Login = (props) => {
             Don't have an account? <Link to={'/signup'}>Sign up here</Link>
           </small>
         </form>
+        <div>
+          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+        </div>
       </Grid>
 
       <Grid item sm />

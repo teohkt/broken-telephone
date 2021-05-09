@@ -10,21 +10,30 @@ import {
   MARK_NOTIFICATIONS_READ,
 } from '../types'
 
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
 export const loginUser = (userData) => async (dispatch) => {
   dispatch({ type: LOADING_UI })
-  axios
-    .post('/login', userData)
-    .then((res) => {
-      setAuthorizationHeader(res.data.token)
-      dispatch(getUserData())
-      dispatch({ type: CLEAR_ERRORS })
-    })
-    .catch((error) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: error.response.data,
+  if (userData.token) {
+    setAuthorizationHeader(userData.token)
+    dispatch(getUserData())
+    dispatch({ type: CLEAR_ERRORS })
+  } else {
+    axios
+      .post('/login', userData)
+      .then((res) => {
+        setAuthorizationHeader(res.data.token)
+        dispatch(getUserData())
+        dispatch({ type: CLEAR_ERRORS })
       })
-    })
+      .catch((error) => {
+        dispatch({
+          type: SET_ERRORS,
+          payload: error.response.data,
+        })
+      })
+  }
 }
 
 export const signupUser = (newUserData) => (dispatch) => {
@@ -47,6 +56,7 @@ export const signupUser = (newUserData) => (dispatch) => {
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem('FBIdToken')
   delete axios.defaults.headers.common['Authorization']
+  firebase.auth().signOut()
   dispatch({ type: SET_UNAUTHENTICATED })
   dispatch({ type: STOP_LOADING_UI })
 }
